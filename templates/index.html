@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardioCheck - Advanced Heart Disease Risk Assessment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1976D2;
+            --primary-dark: #0D47A1;
+            --primary-light: #BBDEFB;
+            --secondary: #006978;
+            --accent: #FF5252;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+            --light: #F5F5F5;
+            --dark: #212121;
+            --gray: #757575;
+            --light-gray: #EEEEEE;
+            --white: #FFFFFF;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --smooth-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #E3F2FD 0%, #F5F5F5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: var(--card-shadow);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo i {
+            color: var(--primary);
+            font-size: 24px;
+        }
+        
+        .header-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .header-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+        }
+        
+        /* Form Styles */
+        .form-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .form-section {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: var(--smooth-transition);
+            background: var(--white);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+        }
+        
+        .range-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+        
+        .required {
+            color: var(--accent);
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--smooth-transition);
+            margin-top: 16px;
+            box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(25, 118, 210, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            height: fit-content;
+            position: sticky;
+            top: 32px;
+        }
+        
+        .info-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .info-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-card p {
+            font-size: 14px;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+        }
+        
+        .stat-text h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .stat-text p {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background: var(--light);
+            padding: 24px 32px;
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        footer p {
+            margin-bottom: 8px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            animation: modalFadeIn 0.4s;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .modal-header {
+            background: linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 24px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .modal-body {
+            padding: 32px;
+            text-align: center;
+        }
+        
+        .result-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        .result-positive {
+            color: var(--accent);
+        }
+        
+        .result-negative {
+            color: var(--success);
+        }
+        
+        .result-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .result-desc {
+            color: var(--gray);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        .modal-footer {
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .modal-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--smooth-transition);
+        }
+        
+        .btn-cancel {
+            background-color: var(--light);
+            color: var(--gray);
+        }
+        
+        .btn-cancel:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .btn-test-again {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+        }
+        
+        .btn-test-again:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 12px rgba(25, 118, 210, 0.4);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--smooth-transition);
+        }
+        
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                margin-top: 32px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .form-container {
+                padding: 24px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .modal-btn {
+                width: 100%;
+            }
+        }
+        
+        /* Form Validation Styles */
+        .error-message {
+            color: var(--accent);
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+        }
+        
+        .form-control.error {
+            border-color: var(--accent);
+        }
+        
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(25, 118, 210, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="header-text">
+                    <h1>CardioCheck</h1>
+                    <p>Advanced Heart Disease Risk Assessment</p>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="form-container">
+                <form id="predictionForm">
+                    <div class="form-section">
+                        <h2 class="section-title"><i class="fas fa-user-circle"></i> Personal Information</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="age">Age <span class="required">*</span></label>
+                                <input type="number" id="age" name="Age" class="form-control" min="18" max="100" required>
+                                <div class="range-info">Range: 18 - 100 years</div>
+                                <div class="error-message">Please enter a valid age between 18 and 100</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gender">Gender <span class="required">*</span></label>
+                                <select id="gender" name="Gender" class="form-control" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <div class="error-message">Please select your gender</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2 class="section-title"><i class="fas fa-heart"></i> Vital Signs</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="cholesterol">Cholesterol (mg/dL) <span class="required">*</span></label>
+                                <input type="number" id="cholesterol" name="Cholesterol" class="form-control" min="150" max="300" required>
+                                <div class="range-info">Normal: &lt;200 mg/dL | High: &gt;240 mg/dL</div>
+                                <div class="error-message">Please enter a value between 150 and 300</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blood_pressure">Blood Pressure (mmHg) <span class="required">*</span></label>
+                                <input type="number" id="blood_pressure" name="Blood Pressure" class="form-control" min="90" max="200" required>
+                                <div class="range-info">Normal: &lt;120/80 mmHg | High: &gt;140/90 mmHg</div>
+                                <div class="error-message">Please enter a value between 90 and 200</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="heart_rate">Heart Rate (bpm) <span class="required">*</span></label>
+                                <input type="number" id="heart_rate" name="Heart Rate" class="form-control" min="40" max="120" required>
+                                <div class="range-info">Normal: 60-100 bpm</div>
+                                <div class="error-message">Please enter a value between 40 and 120</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blood_sugar">Blood Sugar (mg/dL) <span class="required">*</span></label>
+                                <input type="number" id="blood_sugar" name="Blood Sugar" class="form-control" min="70" max="300" required>
+                                <div class="range-info">Normal: 70-140 mg/dL | High: &gt;200 mg/dL</div>
+                                <div class="error-message">Please enter a value between 70 and 300</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2 class="section-title"><i class="fas fa-lungs"></i> Lifestyle Factors</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="smoking">Smoking Status <span class="required">*</span></label>
+                                <select id="smoking" name="Smoking" class="form-control" required>
+                                    <option value="">Select Option</option>
+                                    <option value="Current">Current Smoker</option>
+                                    <option value="Former">Former Smoker</option>
+                                    <option value="Never">Never Smoked</option>
+                                </select>
+                                <div class="error-message">Please select an option</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="alcohol_intake">Alcohol Intake <span class="required">*</span></label>
+                                <select id="alcohol_intake" name="Alcohol Intake" class="form-control" required>
+                                    <option value="">Select Option</option>
+                                    <option value="Heavy">Heavy Drinker</option>
+                                    <option value="Moderate">Moderate Drinker</option>
+                                    <option value="NaN">Non-Drinker</option>
+                                </select>
+                                <div class="error-message">Please select an option</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="exercise_hours">Exercise Hours (per week) <span class="required">*</span></label>
+                                <input type="number" id="exercise_hours" name="Exercise Hours" class="form-control" min="0" max="20" step="0.5" required>
+                                <div class="range-info">Recommended: 2.5-5 hours/week</div>
+                                <div class="error-message">Please enter a value between 0 and 20</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="stress_level">Stress Level (1-10) <span class="required">*</span></label>
+                                <input type="number" id="stress_level" name="Stress Level" class="form-control" min="1" max="10" required>
+                                <div class="range-info">1 (Low) - 10 (High)</div>
+                                <div class="error-message">Please enter a value between 1 and 10</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2 class="section-title"><i class="fas fa-stethoscope"></i> Medical History</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="family_history">Family History of Heart Disease <span class="required">*</span></label>
+                                <select id="family_history" name="Family History" class="form-control" required>
+                                    <option value="">Select Option</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="error-message">Please select an option</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="diabetes">Diabetes <span class="required">*</span></label>
+                                <select id="diabetes" name="Diabetes" class="form-control" required>
+                                    <option value="">Select Option</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="error-message">Please select an option</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="obesity">Obesity <span class="required">*</span></label>
+                                <select id="obesity" name="Obesity" class="form-control" required>
+                                    <option value="">Select Option</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="error-message">Please select an option</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="exercise_induced_angina">Exercise Induced Angina <span class="required">*</span></label>
+                                <select id="exercise_induced_angina" name="Exercise Induced Angina" class="form-control" required>
+                                    <option value="">Select Option</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="error-message">Please select an option</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="chest_pain_type">Chest Pain Type <span class="required">*</span></label>
+                                <select id="chest_pain_type" name="Chest Pain Type" class="form-control" required>
+                                    <option value="">Select Type</option>
+                                    <option value="Typical Angina">Typical Angina</option>
+                                    <option value="Atypical Angina">Atypical Angina</option>
+                                    <option value="Non-anginal Pain">Non-anginal Pain</option>
+                                    <option value="Asymptomatic">Asymptomatic</option>
+                                </select>
+                                <div class="error-message">Please select an option</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn"><i class="fas fa-heartbeat"></i> Assess Heart Disease Risk</button>
+                </form>
+            </div>
+            
+            <div class="sidebar">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> Important Note</h3>
+                    <p>This assessment tool provides statistical predictions only and should not replace professional medical advice. Always consult with a healthcare provider for accurate diagnosis.</p>
+                </div>
+                
+                <div class="stats-container">
+                    <h3 class="section-title"><i class="fas fa-chart-line"></i> Heart Health Stats</h3>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-text">
+                            <h4>Cardiovascular Disease</h4>
+                            <p>Leading cause of death globally</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-text">
+                            <h4>Early Detection</h4>
+                            <p>Can significantly improve outcomes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-walking"></i>
+                        </div>
+                        <div class="stat-text">
+                            <h4>Lifestyle Changes</h4>
+                            <p>Can reduce risk by up to 80%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 CardioCheck - Heart Disease Prediction System | Medical Grade Assessment Tool</p>
+            <p>This tool is for informational purposes only and not a substitute for professional medical advice.</p>
+        </footer>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-heartbeat"></i> Assessment Result</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="result-icon">
+                    <i class="fas fa-heartbeat" id="resultIcon"></i>
+                </div>
+                <div class="result-text" id="resultText">Heart Disease Prediction: No</div>
+                <div class="result-desc" id="resultDescription">
+                    Based on the information provided, our assessment indicates a low risk of heart disease.
+                    However, this is not a medical diagnosis. Please consult with a healthcare professional
+                    for a comprehensive evaluation.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel">Close</button>
+                <button class="modal-btn btn-test-again">Test Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('predictionForm');
+            const modal = document.getElementById('resultModal');
+            const resultText = document.getElementById('resultText');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultDescription = document.getElementById('resultDescription');
+            const closeModalBtn = document.querySelector('.close-modal');
+            const cancelBtn = document.querySelector('.btn-cancel');
+            const testAgainBtn = document.querySelector('.btn-test-again');
+            
+            // Show modal function
+            function showModal() {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Hide modal function
+            function hideModal() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            // Form validation
+            function validateForm() {
+                let isValid = true;
+                const requiredFields = form.querySelectorAll('[required]');
+                
+                requiredFields.forEach(field => {
+                    const errorMessage = field.parentElement.querySelector('.error-message');
+                    
+                    if (!field.value) {
+                        field.classList.add('error');
+                        errorMessage.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        field.classList.remove('error');
+                        errorMessage.style.display = 'none';
+                        
+                        // Validate numeric ranges
+                        if (field.type === 'number') {
+                            const min = parseInt(field.min);
+                            const max = parseInt(field.max);
+                            const value = parseInt(field.value);
+                            
+                            if (value < min || value > max) {
+                                field.classList.add('error');
+                                errorMessage.style.display = 'block';
+                                isValid = false;
+                            }
+                        }
+                    }
+                });
+                
+                return isValid;
+            }
+            
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) {
+                    // Scroll to first error
+                    const firstError = form.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+                
+                // For demo purposes, we'll simulate a prediction result
+                simulatePrediction();
+            });
+            
+            // Simulate prediction result (replace with actual API call)
+            function simulatePrediction() {
+                // Show loading state
+                resultText.textContent = "Analyzing your data...";
+                resultDescription.textContent = "Please wait while we process your information.";
+                resultIcon.className = "loading-spinner";
+                showModal();
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Random result for demo purposes
+                    const hasHeartDisease = Math.random() > 0.5;
+                    
+                    if (hasHeartDisease) {
+                        resultText.textContent = "Heart Disease Prediction: Positive";
+                        resultText.className = "result-text result-positive";
+                        resultIcon.className = "fas fa-heart-broken result-positive";
+                        resultDescription.textContent = "Based on the information provided, our assessment indicates a potential risk of heart disease. Please consult with a healthcare professional for a comprehensive evaluation and guidance.";
+                    } else {
+                        resultText.textContent = "Heart Disease Prediction: Negative";
+                        resultText.className = "result-text result-negative";
+                        resultIcon.className = "fas fa-heart result-negative";
+                        resultDescription.textContent = "Based on the information provided, our assessment indicates a low risk of heart disease. However, this is not a medical diagnosis. Please maintain a healthy lifestyle and regular check-ups.";
+                    }
+                }, 2000);
+            }
+            
+            // Event listeners for modal buttons
+            closeModalBtn.addEventListener('click', hideModal);
+            cancelBtn.addEventListener('click', hideModal);
+            testAgainBtn.addEventListener('click', function() {
+                hideModal();
+                form.reset();
+                // Remove error styles
+                const errorFields = form.querySelectorAll('.error');
+                errorFields.forEach(field => field.classList.remove('error'));
+                
+                const errorMessages = form.querySelectorAll('.error-message');
+                errorMessages.forEach(msg => msg.style.display = 'none');
+                
+                // Scroll to top of form
+                form.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Close modal when clicking outside content
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+            
+            // Input validation on blur
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    const errorMessage = this.parentElement.querySelector('.error-message');
+                    
+                    if (!this.value && this.hasAttribute('required')) {
+                        this.classList.add('error');
+                        errorMessage.style.display = 'block';
+                    } else {
+                        this.classList.remove('error');
+                        errorMessage.style.display = 'none';
+                        
+                        // Validate numeric ranges
+                        if (this.type === 'number' && this.value) {
+                            const min = parseInt(this.min);
+                            const max = parseInt(this.max);
+                            const value = parseInt(this.value);
+                            
+                            if (value < min || value > max) {
+                                this.classList.add('error');
+                                errorMessage.style.display = 'block';
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
